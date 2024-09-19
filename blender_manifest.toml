@@ -1,0 +1,11 @@
+schema_version = "1.0.0"
+
+id = "lixous_blender_color_plot"
+version = "1.0.0"
+name = "Lixou's Blender Color Plot"
+tagline = "Utility to plot colors of an image in a 3d world"
+maintainer = "DasLixou"
+type = "add-on"
+
+blender_version_min = "4.2.0"
+license = ["SPDX:MIT"]
