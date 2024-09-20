@@ -1,5 +1,7 @@
 import bpy
 
+from .ops.analyze import ColorplotAnalyze
+
 class ColorplotSidepanel(bpy.types.Panel):
     bl_idname = "colorplot.sidepanel"
     bl_label = "Color Plot"
@@ -15,4 +17,11 @@ class ColorplotSidepanel(bpy.types.Panel):
         layout = self.layout
         props = context.object.colorplot_props
 
-        layout.prop(props, "scale", text = "Scale")
+        stage1 = layout.box()
+        stage1.label(text = "(1) Analyze Image")
+        stage1.template_ID_preview(props, "image", new="image.new", open="image.open")
+        stage1.operator(ColorplotAnalyze.bl_idname)
+
+        stage2 = layout.box()
+        stage2.label(text = "(2) Plot stuff")
+        stage2.prop(props, "scale", text = "Scale")
