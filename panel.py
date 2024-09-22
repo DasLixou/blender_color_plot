@@ -20,8 +20,9 @@ class ColorplotSidepanel(bpy.types.Panel):
         stage1 = layout.box()
         stage1.label(text = "(1) Analyze Image")
         stage1.template_ID_preview(props, "image", new="image.new", open="image.open")
+        stage1.prop(props, "weaken_alpha", text = "Weaken Alpha", placeholder = "UWU")
         stage1.operator(ColorplotAnalyze.bl_idname)
 
         stage2 = layout.box()
-        stage2.label(text = "(2) Plot stuff")
+        stage2.label(text = "(2) Visualize Geometry")
         stage2.prop(props, "scale", text = "Scale")
