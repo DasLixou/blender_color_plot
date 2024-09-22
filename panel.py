@@ -1,6 +1,7 @@
 import bpy
 
 from .ops.analyze import ColorplotAnalyze
+from .ops.generate import ColorplotGenerate
 
 class ColorplotSidepanel(bpy.types.Panel):
     bl_idname = "colorplot.sidepanel"
@@ -26,3 +27,4 @@ class ColorplotSidepanel(bpy.types.Panel):
         stage2 = layout.box()
         stage2.label(text = "(2) Visualize Geometry")
         stage2.prop(props, "scale", text = "Scale")
+        stage2.operator(ColorplotGenerate.bl_idname)
