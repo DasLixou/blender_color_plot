@@ -10,14 +10,17 @@ def get_or_create_sphere_mesh():
     return mesh
 
 class ColorplotGenerate(bpy.types.Operator):
-    """TODO"""
+    """Generates spheres sized accordingly to the color presence. Automatically clears old spheres"""
     bl_idname = "colorplot.generate_op"
     bl_label = "Generate Geometry"
 
     def execute(self, context):
         values = context.object.colorplot_values.values[:]
 
+        bpy.ops.colorplot.clear_op()
+
         mesh = get_or_create_sphere_mesh()
+        spheres = bpy.data.collections.new("ColorPlotSpheres")
 
         for x in range(0, 32):
             for y in range(0, 32):
@@ -27,8 +30,11 @@ class ColorplotGenerate(bpy.types.Operator):
                         print(f"{x} {y} {z}")
                         sphere = bpy.data.objects.new(name = "ColorPlotShit", object_data = mesh)
                         bpy.context.collection.objects.link(sphere)
+                        spheres.objects.link(sphere)
                         sphere.location = (x, y, z)
                         radius = val * 1000.
                         sphere.scale = (radius, radius, radius)
+        
+        context.object.colorplot_values.spheres = spheres
 
         return {'FINISHED'}
