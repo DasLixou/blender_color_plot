@@ -11,6 +11,7 @@ class ColorplotAdd(bpy.types.Operator):
         o = bpy.data.objects.new("Color Plot", None)
         bpy.context.collection.objects.link(o)
         o.colorplot_props.scale = 10
+
         select_one_object(o)
         return {'FINISHED'}
     

@@ -7,6 +7,8 @@ from .ops.clear import ColorplotClear
 from .ops.generate import ColorplotGenerate
 from .panel import ColorplotSidepanel
 
+# TODO: https://blender.stackexchange.com/questions/9365/how-can-i-import-materials-from-another-blender-file-with-python
+
 def register():
     bpy.utils.register_class(ColorplotProperties)
     bpy.utils.register_class(ColorplotValues)

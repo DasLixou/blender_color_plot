@@ -4,9 +4,13 @@ def get_or_create_sphere_mesh():
     mesh = bpy.data.meshes.get("__colorplot_sphere")
     if mesh:
         return mesh
+    
+    with bpy.data.libraries.load("//Library.blend") as (data_from, data_to):
+            data_to.materials = [mat for mat in data_from.materials if mat == "ColorplotHSVMaterial"]
     bpy.ops.mesh.primitive_uv_sphere_add(radius = 1, location = (0, 0, 0))
     mesh = bpy.context.object.data
     mesh.name = "__colorplot_sphere"
+    mesh.materials.append(data_to.materials[0])
     return mesh
 
 class ColorplotGenerate(bpy.types.Operator):
@@ -21,18 +25,19 @@ class ColorplotGenerate(bpy.types.Operator):
 
         mesh = get_or_create_sphere_mesh()
         spheres = bpy.data.collections.new("ColorPlotSpheres")
+        sphere_blueprint = bpy.data.objects.new(name = "ColorPlotShit", object_data = mesh)
 
         for x in range(0, 32):
             for y in range(0, 32):
                 for z in range(0, 32):
                     val = values[x][y][z]
-                    if val > 0.0:
+                    if val > 0.00000000001:
                         print(f"{x} {y} {z}")
-                        sphere = bpy.data.objects.new(name = "ColorPlotShit", object_data = mesh)
+                        sphere = sphere_blueprint.copy()
                         bpy.context.collection.objects.link(sphere)
                         spheres.objects.link(sphere)
-                        sphere.location = (x, y, z)
-                        radius = val * 1000.
+                        sphere.location = (x / 32, y / 32, z / 32)
+                        radius = val * 20.
                         sphere.scale = (radius, radius, radius)
         
         context.object.colorplot_values.spheres = spheres
