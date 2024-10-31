@@ -1,12 +1,15 @@
 import bpy
+import os
 
 def get_or_create_sphere_mesh():
     mesh = bpy.data.meshes.get("__colorplot_sphere")
     if mesh:
         return mesh
     
-    with bpy.data.libraries.load("//Library.blend") as (data_from, data_to):
-            data_to.materials = [mat for mat in data_from.materials if mat == "ColorplotHSVMaterial"]
+    script_file = os.path.realpath(__file__)
+    directory = os.path.dirname(os.path.dirname(script_file))
+    with bpy.data.libraries.load(os.path.join(directory, "Library.blend")) as (data_from, data_to):
+        data_to.materials = [mat for mat in data_from.materials if mat == "ColorplotHSVMaterial"]
     bpy.ops.mesh.primitive_uv_sphere_add(radius = 1, location = (0, 0, 0))
     mesh = bpy.context.object.data
     mesh.name = "__colorplot_sphere"
